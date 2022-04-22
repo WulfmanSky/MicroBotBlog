@@ -34,10 +34,9 @@ def add_media_group_id(update: Update, data: dict):
         data["media_group_id"] = update.edited_message.media_group_id
     return data
 
-
 def request_save(view_name, data, csrf_token):
-    print("request_save " + settings.DOMAIN + reverse(view_name))
-    response = post(settings.DOMAIN + reverse(view_name), headers={
+    print("request_save " + settings.DOMAIN_IP + reverse(view_name))
+    response = post(settings.DOMAIN_IP + reverse(view_name), headers={
         "Connection": "Keep-Alive",
         "X-CSRFToken": csrf_token
     }, cookies={
@@ -45,6 +44,18 @@ def request_save(view_name, data, csrf_token):
     }, json=data)
     if response.text != "OK":
         print(response.text)
+
+
+# def request_save(view_name, data, csrf_token):
+#     print("request_save " + settings.DOMAIN + reverse(view_name))
+#     response = post(settings.DOMAIN + reverse(view_name), headers={
+#         "Connection": "Keep-Alive",
+#         "X-CSRFToken": csrf_token
+#     }, cookies={
+#         "csrftoken": csrf_token
+#     }, json=data)
+#     if response.text != "OK":
+#         print(response.text)
 
 
 def message(update: Update, context: CallbackContext):

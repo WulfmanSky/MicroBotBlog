@@ -21,6 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
 
 DOMAIN = os.getenv('DOMAIN', 'http://127.0.0.1:8000')
+DOMAIN_IP = os.getenv('DOMAIN_IP', 'http://127.0.0.1:8000')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'käsdfjösjfölkjwöklcöly234reöljcxui932ejkmascmlkyjajsdä')
@@ -29,7 +30,8 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'käsdfjösjfölkjwöklcöly234reöl
 DEBUG = os.getenv('DJANGO_DEBUG_MODE', 'True') == 'True'
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', os.getenv('DOMAIN_WITHOUT_PROTOCOL', '127.0.0.1:8000')]
-CSRF_TRUSTED_ORIGINS = ['https://ryderhook.strangled.net','https://127.0.0.1']
+#CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_DOMAINS',['https://127.0.0.1'])
+CSRF_TRUSTED_ORIGINS = [DOMAIN]
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Application definition
@@ -79,7 +81,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'projectBlog.wsgi.application'
 
-CSRF_TRUSTED_ORIGINS = [DOMAIN]
+
 
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
