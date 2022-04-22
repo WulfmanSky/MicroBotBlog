@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 """
 import os
 from pathlib import Path
+from django.contrib import messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,13 +23,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DOMAIN = os.getenv('DOMAIN', 'http://127.0.0.1:8000')
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-kpp%ga$)gsiu^(kyx_4f!e@i7t=$8megi#p^0+*90*_x+ihthf')
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'käsdfjösjfölkjwöklcöly234reöljcxui932ejkmascmlkyjajsdä')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DJANGO_DEBUG_MODE', 'True') == 'True'
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', os.getenv('DOMAIN_WITHOUT_PROTOCOL', '127.0.0.1:8000')]
-
+CSRF_TRUSTED_ORIGINS = ['https://ryderhook.strangled.net','https://127.0.0.1']
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Application definition
 
@@ -39,9 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'microblog.apps.MicroblogConfig',
     'markdownify.apps.MarkdownifyConfig',
     'telegramBot.apps.TelegrambotConfig',
+
     'django_cleanup.apps.CleanupConfig'
 ]
 
@@ -123,16 +127,19 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/dev/topics/i18n/
 
 LANGUAGE_CODE = os.getenv('DJANGO_LANGUAGE_CODE', 'de-de')
-
 TIME_ZONE = os.getenv('DJANGO_TIME_ZONE', 'Europe/Berlin')
 
 USE_I18N = True
-
 USE_TZ = True
 
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/dev/howto/static-files/
+
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/MicroBlog/'
+LOGOUT_REDIRECT_URL = '/MicroBlog/'
 
 STATIC_URL = 'static/'
 e = os.getenv('DJANGO_STATIC_ROOT')

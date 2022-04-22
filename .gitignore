@@ -133,3 +133,5 @@ dmypy.json
 
 # Django development version
 django/
+media/
+projectBlog/microblog/migrations/

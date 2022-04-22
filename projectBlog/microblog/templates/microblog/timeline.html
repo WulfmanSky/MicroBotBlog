@@ -3,7 +3,7 @@
 <html lang="de">
 <head>
     <title>{{ project_name }}</title>
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.svg">
+    <link rel="shortcut icon" type="image/x-icon" href="/MicroBlog/favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet" />
@@ -11,9 +11,9 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
-    <link rel="stylesheet" href="{% static 'microblog/styles.css' %}" />
+    <link rel="stylesheet" href="/MicroBlog/{% static 'microblog/styles.css' %}" />
     <script>hljs.highlightAll();</script>
-    <script src="{% static 'microblog/menu.js' %}"></script>
+    <script src="/MicroBlog/{% static 'microblog/menu.js' %}"></script>
 </head>
 <body>
 <ul class="menu">
@@ -24,10 +24,11 @@
             <rect y="60" width="100" height="20" fill="#94da3a"></rect>
         </svg>
     </div>
-    <h1 id="menu-heading">Projekte:</h1>
+    <h1 id="menu-heading">Photo Blog's:</h1>
     {% for project in project_list %}
-    <li><a href="{{ project.url }}">{{ project.name }}</a></li>
+    <li><a href="/MicroBlog/{{ project.url }}">{{ project.name }}</a></li>
     {% endfor %}
+    <li><a href="/MicroBlog{% url 'logout' %}"><i class="fas fa-sign-out-alt fa-fw"></i> Logout</a></li>
 </ul>
 <div class="content">
     <h1 class="projectHeading">{{ project_name }}</h1>
@@ -38,6 +39,13 @@
             <span class="date">{{ post.date }}</span>
         </div>
         {{ post.text|markdownify }}
+        {% if post.video is not None %}
+            <div style="margin: 10px auto;">
+    					<video controls="controls" preload="preload">
+    						<source src="{{ DOMAIN }}{{MEDIA_URL}}{{ post.video }}" type="{{ post.video.mime_type }}"></source>
+    					</video>
+    				</div>
+        {% endif %}
     </div>
     {% endfor %}
 </div>

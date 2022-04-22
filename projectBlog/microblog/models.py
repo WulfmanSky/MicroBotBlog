@@ -35,3 +35,13 @@ class BlogImage(models.Model):
 
     def __str__(self):
         return str(self.image)
+
+class BlogVideo(models.Model):
+    post = models.ForeignKey(BlogPost,
+                             on_delete=models.CASCADE,
+                             related_name='videos')
+    video = models.ImageField(upload_to='videos')
+    mime_type = models.TextField(blank=True, default='')
+
+    def __str__(self):
+        return str(self.video)

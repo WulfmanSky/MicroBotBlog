@@ -90,7 +90,7 @@ ul.menu div#burger-symbol {
     float: right;
     margin: 0;
     cursor: pointer;
-    background-image: url("/static/microblog/burgerfadein.png");
+    background-image: url("/MicroBlog/static/microblog/burgerfadein.png");
     background-repeat: repeat-y;
     padding: 0.5em 0.5em 0.5em 2em;
     position: relative;

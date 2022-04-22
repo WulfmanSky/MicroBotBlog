@@ -7,7 +7,7 @@ from telegram.ext import MessageHandler, Filters
 from telegram.utils.request import Request
 from telegram.error import RetryAfter
 from queue import Queue
-from .bot import message, image, error_handler
+from .bot import message, image, video, error_handler
 
 
 class TelegrambotConfig(AppConfig):
@@ -20,13 +20,14 @@ class TelegrambotConfig(AppConfig):
     def ready(self):
         if not self.bot:
             self.bot = Bot(settings.TELEGRAM_BOT["token"], request=Request(read_timeout=10, connect_timeout=10))
+
         if not self.dispatcher:
             self.dispatcher = Dispatcher(bot=self.bot, update_queue=Queue(), use_context=True, workers=1)
             self.dispatcher.add_error_handler(error_handler, run_async=False)
-            self.dispatcher.add_handler(
-                MessageHandler(Filters.text & (~Filters.command), message))
-            self.dispatcher.add_handler(
-                MessageHandler(filters=Filters.photo, callback=image))
+            self.dispatcher.add_handler(MessageHandler(Filters.text & (~Filters.command), message))
+            self.dispatcher.add_handler(MessageHandler(filters=Filters.photo | Filters.status_update.new_chat_photo, callback=image))
+            self.dispatcher.add_handler(MessageHandler(filters=Filters.video, callback=video))
+
         if settings.TELEGRAM_BOT["register_webhook"] and not self.webhook_registered:
             try:
                 self.bot.setWebhook(settings.DOMAIN + reverse('webhook'))
