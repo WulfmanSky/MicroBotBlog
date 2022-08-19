@@ -23,7 +23,12 @@ def project_overview(request):
         return redirect('%s%s?next=%s' % (settings.DOMAIN, settings.LOGIN_URL, request.path))
 
     projects = BlogProject.objects.all().annotate(latest_post=Max('posts__date')).order_by('-latest_post')
-    return render(request, 'microblog/overview.html', context={"projects": [{"name": p.name, "url": reverse('timeline', kwargs={"project_name": quote_plus(p.name)})} for p in projects] })
+    return render(request, 'microblog/overview.html', context={
+         "projects": [{
+             "name": p.name,
+             "latest_post": p.latest_post,
+             "url": reverse('timeline',
+             kwargs={"project_name": quote_plus(p.name)})} for p in projects] })
 
 @login_required #(login_url='/MicroBlog/accounts/login/')
 def project_timeline(request, project_name):

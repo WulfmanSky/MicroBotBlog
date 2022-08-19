@@ -15,7 +15,7 @@
     <div class="post">
         <ul>
             {% for project in projects %}
-            <li><a href="/MicroBlog{{ project.url }}">{{ project.name }}</a></li>
+            <li><a href="/MicroBlog{{ project.url }}">{{ project.latest_post }} -- {{ project.name }} </a></li>
             {% endfor %}
         </ul>
     </div>
